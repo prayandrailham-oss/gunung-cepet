@@ -4,7 +4,7 @@
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "SCRIPTS AUTO SUMMIT V3 || By hamhamham",
+    Name = "SCRIPTS AUTO SUMMIT V3 || By Trzzhub",
     Icon = 0,
     LoadingTitle = "Loading...",
     LoadingSubtitle = "By Trzzhub",
@@ -456,7 +456,7 @@ end
 createAutoSummit("MOUNT ATIN", {
     CFrame.new(624.79, 1801.43, 3432.24),
     CFrame.new(781.23, 2166.03, 3921.29),
-}, 1, 1)
+}, 3, 4)
 
 -- Auto Rejoin setelah sampai di CFrame terakhir
 local TeleportService = game:GetService("TeleportService")
@@ -488,7 +488,7 @@ createAutoSummit("MOUNT CING", {
     CFrame.new(-1837.70, 493.00, -111.90),
     CFrame.new(-2196.33, 783.41, 985.90),
     CFrame.new(-1491.83, 1288.89, 1066.64),
-}, 1, 1)
+}, 3, 4)
 
 -- MOUNT SUMBING
 createAutoSummit("MOUNT SUMBING", {
@@ -497,7 +497,7 @@ createAutoSummit("MOUNT SUMBING", {
     CFrame.new(41.93, 1269.00, 4044.11),
     CFrame.new(-1142.34, 1553.00, 4899.95),
     CFrame.new(-896.04, 1948.29, 5352.81),
-}, 1, 1)
+}, 3, 4)
 
 -- MOUNT HANAMI
 createAutoSummit("MOUNT HANAMI", {
@@ -509,7 +509,7 @@ createAutoSummit("MOUNT HANAMI", {
     CFrame.new(-1975.74, 609.55, 131.92),
     CFrame.new(-2765.88, 669.34, 44.07),
     CFrame.new(-2601.37, 848.96, -323.42),
-}, 1, 1)
+}, 1, 3)
 
 -- MOUNT ADUH (langsung teleport + auto rejoin)
 do
@@ -559,13 +559,13 @@ createAutoSummit("MOUNT GAMPIL", {
 
 -- MOUNT YAHAYUK (NO AUTORESPAWN + TELEPORT SECEPAT MUNGKIN)
 createAutoSummit("MOUNT YAHAYUK", {
-    CFrame.new(-429.09, 248.70, 787.73),
-    CFrame.new(-370.02, 387.70, 532.80),
-    CFrame.new(295.46, 430.15, 498.50),
-    CFrame.new(326.66, 489.70, 364.98),
-    CFrame.new(218.04, 313.70, -144.84),
+    CFrame.new(-420.05, 249.64, 769.69),
+    CFrame.new(-347.92, 388.64, 522.19),
+    CFrame.new(288.00, 429.64, 504.00),
+    CFrame.new(333.85, 490.64, 348.98),
+    CFrame.new(212.54, 314.64, -146.42),
     CFrame.new(-616.00, 905.38, -510.00),
-}, 3, 3, {
+}, 1, 1, {
     autoRespawn = false
 })
 
@@ -576,23 +576,8 @@ createAutoSummit("MOUNT OWASHU", {
     CFrame.new(-1077.02, 328.65, 1416.00),   -- CP 4
     CFrame.new(-1187.75, 488.64, 1787.63),   -- CP 5
     CFrame.new(-1576.99, 670.25, 2322.01)    -- SUM
-}, 1, 1.5, {   -- delay antar posisi = 2 detik
+}, 2, 1, {   -- delay antar posisi = 2 detik
     autoRespawn = true
-})
-
-createAutoSummit("MOUNT AMBANG", {
-    CFrame.new(928.89, 300.44, -59.50),      -- CP 1
-    CFrame.new(2215.60, 864.44, -871.82),
-    CFrame.new(2043.36, 1320.44, -2707.56)    -- SUM
-}, 1, 0, {   -- delay antar posisi = 2 detik
-    autoRespawn = true
-})
-
-createAutoSummit("MOUNT YAREU", {
-    CFrame.new(-122.07, 126.47, -52.35),     -- CP 1
-    CFrame.new(-863.63, 812.19, 1787.01)   -- SUM
-}, 1, 0, {   -- delay antar posisi = 0 detik
-    autoRespawn = false
 })
 
 createAutoSummit("MOUNT PASANG SIGMA", {
@@ -602,7 +587,7 @@ createAutoSummit("MOUNT PASANG SIGMA", {
     CFrame.new(3707.07, 1572.18, 9050.33),    -- CP 4
     CFrame.new(1136.15, 1671.33, 9455.95),    -- CP 5
     CFrame.new(-566.15, 2050.75, 9498.65)     -- SUM
-}, 1, 1, {   -- delay antar posisi = 1 detik, delay respawn = 1 detik
+}, 2, 2, {   -- delay antar posisi = 2 detik, delay respawn = 3 detik
     autoRespawn = true
 })
 
@@ -623,6 +608,6 @@ createAutoSummit("MOUNT LABIRIN", {
     CFrame.new(900.05, 669.27, -47.27),     -- CP 14
     CFrame.new(1174.73, 805.02, -100.76),   -- CP 15
     CFrame.new(1177.31, 800.85, -181.09)    -- CP 16 / Summit
-}, 1, 2, {   -- delay antar posisi = 2 detik, delay respawn = 3 detik
+}, 1, 1, {   -- delay antar posisi = 2 detik, delay respawn = 3 detik
     autoRespawn = true
 })
