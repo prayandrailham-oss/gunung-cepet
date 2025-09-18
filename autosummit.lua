@@ -565,7 +565,7 @@ createAutoSummit("MOUNT YAHAYUK", {
     CFrame.new(326.66, 489.70, 364.98),
     CFrame.new(218.04, 313.70, -144.84),
     CFrame.new(-616.00, 905.38, -510.00),
-}, 3, 2, {
+}, 3, 3, {
     autoRespawn = false
 })
 
