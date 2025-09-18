@@ -576,7 +576,7 @@ createAutoSummit("MOUNT OWASHU", {
     CFrame.new(-1077.02, 328.65, 1416.00),   -- CP 4
     CFrame.new(-1187.75, 488.64, 1787.63),   -- CP 5
     CFrame.new(-1576.99, 670.25, 2322.01)    -- SUM
-}, 1, 1, {   -- delay antar posisi = 2 detik
+}, 1, 1.5, {   -- delay antar posisi = 2 detik
     autoRespawn = true
 })
 
@@ -608,6 +608,6 @@ createAutoSummit("MOUNT LABIRIN", {
     CFrame.new(900.05, 669.27, -47.27),     -- CP 14
     CFrame.new(1174.73, 805.02, -100.76),   -- CP 15
     CFrame.new(1177.31, 800.85, -181.09)    -- CP 16 / Summit
-}, 1, 1, {   -- delay antar posisi = 2 detik, delay respawn = 3 detik
+}, 1, 2, {   -- delay antar posisi = 2 detik, delay respawn = 3 detik
     autoRespawn = true
 })
