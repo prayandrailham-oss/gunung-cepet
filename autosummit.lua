@@ -576,8 +576,23 @@ createAutoSummit("MOUNT OWASHU", {
     CFrame.new(-1077.02, 328.65, 1416.00),   -- CP 4
     CFrame.new(-1187.75, 488.64, 1787.63),   -- CP 5
     CFrame.new(-1576.99, 670.25, 2322.01)    -- SUM
-}, 2, 1, {   -- delay antar posisi = 2 detik
+}, 1, 1.5, {   -- delay antar posisi = 2 detik
     autoRespawn = true
+})
+
+createAutoSummit("MOUNT AMBANG", {
+    CFrame.new(928.89, 300.44, -59.50),      -- CP 1
+    CFrame.new(2215.60, 864.44, -871.82),
+    CFrame.new(2043.36, 1320.44, -2707.56)    -- SUM
+}, 1, 0, {   -- delay antar posisi = 2 detik
+    autoRespawn = true
+})
+
+createAutoSummit("MOUNT YAREU", {
+    CFrame.new(-122.07, 126.47, -52.35),     -- CP 1
+    CFrame.new(-863.63, 812.19, 1787.01)   -- SUM
+}, 1, 0, {   -- delay antar posisi = 0 detik
+    autoRespawn = false
 })
 
 createAutoSummit("MOUNT PASANG SIGMA", {
