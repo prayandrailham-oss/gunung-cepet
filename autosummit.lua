@@ -207,13 +207,6 @@ local function createTitleButton(name, textContent)
     })
 end
 
--- TITLE LIST
-createTitleButton("👑 OWNER 👑", "👑 OWNER 👑")
-createTitleButton("🛡️ HeadAdmin 🛡️", "🛡️ HeadAdmin 🛡️")
-createTitleButton("👑 ADMIN 👑", "👑 ADMIN 👑")
-createTitleButton("💎 VIP 💎", "💎 VIP 💎")
-createTitleButton("🏆 TOP DONATUR 🏆", "🏆 TOP DONATUR 🏆")
-
 -- ========================================
 -- AUTO RELOAD SCRIPT DARI RAW GITHUB
 -- ========================================
@@ -241,6 +234,14 @@ TabCre:CreateButton({
     end
 })
 
+-- TITLE LIST
+createTitleButton("👑 OWNER 👑", "👑 OWNER 👑")
+createTitleButton("🛡️ HeadAdmin 🛡️", "🛡️ HeadAdmin 🛡️")
+createTitleButton("👑 ADMIN 👑", "👑 ADMIN 👑")
+createTitleButton("💎 VIP 💎", "💎 VIP 💎")
+createTitleButton("🏆 TOP DONATUR 🏆", "🏆 TOP DONATUR 🏆")
+createTitleButton("🔄 REFRESH SCRIPT 🔄", "🔄 REFRESH SCRIPT 🔄")
+    
 -- ========================
 -- MISC SCRIPTS
 -- ========================
