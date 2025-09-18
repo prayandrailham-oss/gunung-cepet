@@ -583,7 +583,7 @@ createAutoSummit("MOUNT OWASHU", {
 createAutoSummit("MOUNT AMBANG", {
     CFrame.new(928.89, 300.44, -59.50),      -- CP 1
     CFrame.new(2215.60, 864.44, -871.82),
-    CFrame.new(2043.36, 1320.44, -2707.56)    -- SUM
+    CFrame.new(2036.76, 1324.67, -2706.31)    -- SUM
 }, 1, 1.5, {   -- delay antar posisi = 2 detik
     autoRespawn = true
 })
