@@ -559,14 +559,14 @@ createAutoSummit("MOUNT GAMPIL", {
 
 -- MOUNT YAHAYUK (NO AUTORESPAWN + TELEPORT SECEPAT MUNGKIN)
 createAutoSummit("MOUNT YAHAYUK", {
-    CFrame.new(-420.05, 249.64, 769.69),
-    CFrame.new(-347.92, 388.64, 522.19),
-    CFrame.new(288.00, 429.64, 504.00),
-    CFrame.new(333.85, 490.64, 348.98),
-    CFrame.new(212.54, 314.64, -146.42),
+    CFrame.new(-429.09, 248.70, 787.73),
+    CFrame.new(-370.02, 387.70, 532.80),
+    CFrame.new(295.46, 430.15, 498.50),
+    CFrame.new(326.66, 489.70, 364.98),
+    CFrame.new(218.04, 313.70, -144.84),
     CFrame.new(-616.00, 905.38, -510.00),
 }, 1, 1, {
-    autoRespawn = false
+    autoRespawn = true
 })
 
 createAutoSummit("MOUNT OWASHU", {
