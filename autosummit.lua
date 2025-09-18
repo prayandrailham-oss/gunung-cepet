@@ -584,7 +584,7 @@ createAutoSummit("MOUNT AMBANG", {
     CFrame.new(928.89, 300.44, -59.50),      -- CP 1
     CFrame.new(2215.60, 864.44, -871.82),
     CFrame.new(2043.36, 1320.44, -2707.56)    -- SUM
-}, 1, 0, {   -- delay antar posisi = 2 detik
+}, 1, 1.5, {   -- delay antar posisi = 2 detik
     autoRespawn = true
 })
 
