@@ -488,7 +488,7 @@ createAutoSummit("MOUNT CING", {
     CFrame.new(-1837.70, 493.00, -111.90),
     CFrame.new(-2196.33, 783.41, 985.90),
     CFrame.new(-1491.83, 1288.89, 1066.64),
-}, 3, 4)
+}, 1, 1)
 
 -- MOUNT SUMBING
 createAutoSummit("MOUNT SUMBING", {
