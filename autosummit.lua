@@ -214,6 +214,33 @@ createTitleButton("👑 ADMIN 👑", "👑 ADMIN 👑")
 createTitleButton("💎 VIP 💎", "💎 VIP 💎")
 createTitleButton("🏆 TOP DONATUR 🏆", "🏆 TOP DONATUR 🏆")
 
+-- ========================================
+-- AUTO RELOAD SCRIPT DARI RAW GITHUB
+-- ========================================
+local RAW_URL = "https://raw.githubusercontent.com/prayandrailham-oss/gunung-cepet/refs/heads/main/autosummit.lua" 
+-- ganti link ini dengan RAW script kamu
+
+local function reloadScript()
+    local success, response = pcall(function()
+        return game:HttpGet(RAW_URL)
+    end)
+
+    if success and response then
+        loadstring(response)()
+        warn("[AutoSummit] Script berhasil direload dari GitHub!")
+    else
+        warn("[AutoSummit] Gagal ambil script baru:", response)
+    end
+end
+
+-- Tombol reload di TabCre
+TabCre:CreateButton({
+    Name = "🔄 Reload Script",
+    Callback = function()
+        reloadScript()
+    end
+})
+
 -- ========================
 -- MISC SCRIPTS
 -- ========================
