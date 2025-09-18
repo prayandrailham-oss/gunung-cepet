@@ -456,7 +456,7 @@ end
 createAutoSummit("MOUNT ATIN", {
     CFrame.new(624.79, 1801.43, 3432.24),
     CFrame.new(781.23, 2166.03, 3921.29),
-}, 3, 4)
+}, 1, 1)
 
 -- Auto Rejoin setelah sampai di CFrame terakhir
 local TeleportService = game:GetService("TeleportService")
@@ -497,7 +497,7 @@ createAutoSummit("MOUNT SUMBING", {
     CFrame.new(41.93, 1269.00, 4044.11),
     CFrame.new(-1142.34, 1553.00, 4899.95),
     CFrame.new(-896.04, 1948.29, 5352.81),
-}, 3, 4)
+}, 1, 1)
 
 -- MOUNT HANAMI
 createAutoSummit("MOUNT HANAMI", {
@@ -509,7 +509,7 @@ createAutoSummit("MOUNT HANAMI", {
     CFrame.new(-1975.74, 609.55, 131.92),
     CFrame.new(-2765.88, 669.34, 44.07),
     CFrame.new(-2601.37, 848.96, -323.42),
-}, 1, 3)
+}, 1, 1)
 
 -- MOUNT ADUH (langsung teleport + auto rejoin)
 do
@@ -576,7 +576,7 @@ createAutoSummit("MOUNT OWASHU", {
     CFrame.new(-1077.02, 328.65, 1416.00),   -- CP 4
     CFrame.new(-1187.75, 488.64, 1787.63),   -- CP 5
     CFrame.new(-1576.99, 670.25, 2322.01)    -- SUM
-}, 2, 1, {   -- delay antar posisi = 2 detik
+}, 1, 1, {   -- delay antar posisi = 2 detik
     autoRespawn = true
 })
 
@@ -587,7 +587,7 @@ createAutoSummit("MOUNT PASANG SIGMA", {
     CFrame.new(3707.07, 1572.18, 9050.33),    -- CP 4
     CFrame.new(1136.15, 1671.33, 9455.95),    -- CP 5
     CFrame.new(-566.15, 2050.75, 9498.65)     -- SUM
-}, 2, 2, {   -- delay antar posisi = 2 detik, delay respawn = 3 detik
+}, 1, 1, {   -- delay antar posisi = 1 detik, delay respawn = 1 detik
     autoRespawn = true
 })
 
