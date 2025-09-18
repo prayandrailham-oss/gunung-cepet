@@ -4,7 +4,7 @@
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "SCRIPTS AUTO SUMMIT V3 || By Trzzhub",
+    Name = "SCRIPTS AUTO SUMMIT V3 || By hamhamham",
     Icon = 0,
     LoadingTitle = "Loading...",
     LoadingSubtitle = "By Trzzhub",
@@ -576,6 +576,14 @@ createAutoSummit("MOUNT OWASHU", {
     CFrame.new(-1077.02, 328.65, 1416.00),   -- CP 4
     CFrame.new(-1187.75, 488.64, 1787.63),   -- CP 5
     CFrame.new(-1576.99, 670.25, 2322.01)    -- SUM
+}, 1, 1.5, {   -- delay antar posisi = 2 detik
+    autoRespawn = true
+})
+
+createAutoSummit("MOUNT AMBANG", {
+    CFrame.new(928.89, 300.44, -59.50),      -- CP 1
+    CFrame.new(2178.13, 1153.60, -2213.22),  -- CP 11
+    CFrame.new(2043.36, 1320.44, -2707.56)    -- SUM
 }, 1, 1.5, {   -- delay antar posisi = 2 detik
     autoRespawn = true
 })
