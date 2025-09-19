@@ -1,9 +1,9 @@
 -- ========================
 -- LOAD RAYFIELD UI
 -- ========================
-_G.Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+.Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
-local Window = _G.Rayfield:CreateWindow({
+local Window = .Rayfield:CreateWindow({
     Name = "SCRIPTS AUTO SUMMIT V3 || By Trzzhub",
     Icon = 0,
     LoadingTitle = "Loading...",
@@ -30,11 +30,11 @@ local Window = _G.Rayfield:CreateWindow({
 -- ========================
 -- TABS
 -- ========================
-_G.TabAuto   = Window:CreateTab("AUTO SUMMIT", 4483362458)
-_G.TabTp     = Window:CreateTab("PUNCAK", 4483362458)
-_G.TabMisc   = Window:CreateTab("SCRIPT", 4483362458)
-_G.TabHub    = Window:CreateTab("ANIMASI", 4483362458)
-_G.TabCre    = Window:CreateTab("TITLE", 4483362458)
+.TabAuto   = Window:CreateTab("AUTO SUMMIT", 4483362458)
+.TabTp     = Window:CreateTab("PUNCAK", 4483362458)
+.TabMisc   = Window:CreateTab("SCRIPT", 4483362458)
+.TabHub    = Window:CreateTab("ANIMASI", 4483362458)
+.TabCre    = Window:CreateTab("TITLE", 4483362458)
 
 -- Fungsi animasi kosong
 function startAnimation(name, list)
@@ -164,10 +164,10 @@ TabHub:CreateButton({
 -- Auto reapply saat respawn
 local player = game.Players.LocalPlayer
 player.CharacterAdded:Connect(function(char)
-    if _G.currentMode then
+    if .currentMode then
         task.wait(1)
-        local sparks = _G.applySparkles(char)
-        _G.startAnimation(_G.currentMode, sparks)
+        local sparks = .applySparkles(char)
+        .startAnimation(.currentMode, sparks)
     end
 end)
 
@@ -177,8 +177,8 @@ end)
 local function refreshScript()
     local char = player.Character
     -- Stop animasi
-    _G.animating = false
-    _G.currentMode = nil
+    .animating = false
+    .currentMode = nil
 
     -- Hapus semua sparkles
     if char then
@@ -190,9 +190,9 @@ local function refreshScript()
     end
 
     -- Stop auto summit
-    if _G.cancelToken then
-        _G.cancelToken.cancelled = true
-        _G.cancelToken = nil
+    if .cancelToken then
+        .cancelToken.cancelled = true
+        .cancelToken = nil
     end
 
     -- Load ulang script utama
@@ -201,7 +201,7 @@ local function refreshScript()
     end)
 end
 
-_G.TabMisc:CreateButton({
+.TabMisc:CreateButton({
     Name = "REFRESH SCRIPT",
     Callback = refreshScript
 })
