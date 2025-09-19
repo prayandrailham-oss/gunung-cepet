@@ -598,9 +598,16 @@ createAutoSummit("MOUNT BERSABAR V1.2", {
 -- MOUNT GAMPIL (NO AUTORESPAWN + TELEPORT SECEPAT MUNGKIN)
 createAutoSummit("MOUNT BOHONG", {
     CFrame.new(1157.44, 163.51, -451.41),
+    CFrame.new(926.56, 273.24, -1016.36),
+    CFrame.new(590.40, 661.28, -894.39),
+    CFrame.new(46.87, 806.77, -997.59),
+    CFrame.new(-33.25, 904.28, -1140.67),
+    CFrame.new(-690.24, 888.28, -1381.33),
+    CFrame.new(-651.58, 897.20, -1775.74),
+    CFrame.new(-1195.87, 992.85, -1738.40),
     CFrame.new(-1333.05, 897.03, -1156.43),
     CFrame.new(-978.01, 1320.44, -1400.73),
-}, 1, 1, {
+}, 1, 0, {
     autoRespawn = true
 })
 
