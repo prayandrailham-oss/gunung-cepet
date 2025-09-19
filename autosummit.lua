@@ -578,7 +578,7 @@ createAutoSummit("MOUNT BOHONG", {
     CFrame.new(-651.58, 897.20, -1775.74),
     CFrame.new(-1195.87, 992.85, -1738.40),
     CFrame.new(-1333.05, 897.03, -1156.43),
-    CFrame.new(-978.01, 1320.44, -1400.73),
+    CFrame.new(-978.28, 1310.01, -1467.28),
 }, 1, 1.5, {
     autoRespawn = true
 })
