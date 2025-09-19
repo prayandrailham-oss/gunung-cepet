@@ -557,6 +557,32 @@ createAutoSummit("MOUNT GAMPIL", {
     autoRespawn = false
 })
 
+createAutoSummit("MOUNT BERSABAR V1.2", {
+    CFrame.new(570.05, 372.38, 144.33),
+    CFrame.new(4340.52, 2487.69, 1038.99),
+    CFrame.new(4310.70, 2589.49, 1266.97),
+    CFrame.new(4318.19, 2612.44, 1765.01),
+    CFrame.new(4261.21, 2989.10, 1814.13)
+}, 1, 0, {
+    autoRespawn = false
+})
+
+-- MOUNT BOONG (NO AUTORESPAWN + TELEPORT SECEPAT MUNGKIN)
+createAutoSummit("MOUNT BOHONG", {
+    CFrame.new(1157.44, 163.51, -451.41),
+    CFrame.new(926.56, 273.24, -1016.36),
+    CFrame.new(590.40, 661.28, -894.39),
+    CFrame.new(46.87, 806.77, -997.59),
+    CFrame.new(-33.25, 904.28, -1140.67),
+    CFrame.new(-690.24, 888.28, -1381.33),
+    CFrame.new(-651.58, 897.20, -1775.74),
+    CFrame.new(-1195.87, 992.85, -1738.40),
+    CFrame.new(-1333.05, 897.03, -1156.43),
+    CFrame.new(-975.05, 1306.90, -1470.14)
+}, 1, 1.5, {
+    autoRespawn = true
+})
+
 -- MOUNT YAHAYUK (NO AUTORESPAWN + TELEPORT SECEPAT MUNGKIN)
 createAutoSummit("MOUNT YAHAYUK", {
     CFrame.new(-420.05, 249.64, 769.69),
@@ -576,8 +602,23 @@ createAutoSummit("MOUNT OWASHU", {
     CFrame.new(-1077.02, 328.65, 1416.00),   -- CP 4
     CFrame.new(-1187.75, 488.64, 1787.63),   -- CP 5
     CFrame.new(-1576.99, 670.25, 2322.01)    -- SUM
-}, 2, 1, {   -- delay antar posisi = 2 detik
+}, 1, 1.5, {   -- delay antar posisi = 2 detik
     autoRespawn = true
+})
+
+createAutoSummit("MOUNT AMBANG", {
+    CFrame.new(928.89, 300.44, -59.50),      -- CP 1
+    CFrame.new(2215.60, 864.44, -871.82),
+    CFrame.new(2036.76, 1324.67, -2706.31)    -- SUM
+}, 1, 1.5, {   -- delay antar posisi = 2 detik
+    autoRespawn = true
+})
+
+createAutoSummit("MOUNT YAREU", {
+    CFrame.new(-122.07, 126.47, -52.35),     -- CP 1
+    CFrame.new(-863.63, 812.19, 1787.01)   -- SUM
+}, 1, 0, {   -- delay antar posisi = 0 detik
+    autoRespawn = false
 })
 
 createAutoSummit("MOUNT PASANG SIGMA", {
