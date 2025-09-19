@@ -224,54 +224,12 @@ TabMisc:CreateButton({
     end,
 })
 
--- ========================
--- TELEPORT TO PLAYER (SAFE VERSION)
--- ========================
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-
-local function createTeleportButtons()
-    for _, btn in pairs(TabMisc:GetChildren()) do
-        if btn.Name and string.find(btn.Name, "TP: ") then
-            btn:Destroy() -- hapus tombol lama biar gak numpuk
-        end
-    end
-
-    for _, p in ipairs(Players:GetPlayers()) do
-        if p ~= player then
-            TabMisc:CreateButton({
-                Name = "TP: " .. p.Name,
-                Callback = function()
-                    local target = p.Character and p.Character:FindFirstChild("HumanoidRootPart")
-                    local me = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-                    if target and me then
-                        me.CFrame = target.CFrame + Vector3.new(0, 3, 0)
-                    end
-                end,
-            })
-        end
-    end
-end
-
--- tombol buat refresh daftar player
-TabMisc:CreateButton({
-    Name = "🔄 Refresh TP Player",
-    Callback = function()
-        createTeleportButtons()
-    end,
-})
-
--- isi awal daftar player
-createTeleportButtons()
-
-
 TabMisc:CreateButton({
     Name = "INFINITE YIELD",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
     end,
 })
-
 
 TabMisc:CreateButton({
     Name = "SPEED COIL",
@@ -291,8 +249,6 @@ TabMisc:CreateButton({
             tool.Name = "Speed Coil"
             tool.RequiresHandle = false -- hilangkan handle agar tangan tidak animasi
             tool.Parent = backpack
-
-            -- jangan buat Handle atau mesh sama sekali
 
             tool.Equipped:Connect(function()
                 local humanoid = char:FindFirstChildOfClass("Humanoid")
@@ -319,8 +275,6 @@ TabMisc:CreateButton({
         end)
     end,
 })
-
-
 
 TabMisc:CreateButton({
     Name = "SC AUTO WALK",
@@ -402,6 +356,48 @@ TabMisc:CreateSlider({
         end
     end,
 })
+
+-- ========================
+-- TELEPORT TO PLAYER (SAFE VERSION)
+-- ========================
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local function createTeleportButtons()
+    -- hapus tombol TP lama biar gak numpuk
+    for _, obj in pairs(TabMisc:GetChildren()) do
+        if obj.Name and string.find(obj.Name, "TP: ") then
+            obj:Destroy()
+        end
+    end
+
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p ~= player then
+            TabMisc:CreateButton({
+                Name = "TP: " .. p.Name,
+                Callback = function()
+                    local target = p.Character and p.Character:FindFirstChild("HumanoidRootPart")
+                    local me = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+                    if target and me then
+                        me.CFrame = target.CFrame + Vector3.new(0, 3, 0)
+                    end
+                end,
+            })
+        end
+    end
+end
+
+-- tombol refresh daftar player
+TabMisc:CreateButton({
+    Name = "🔄 Refresh TP Player",
+    Callback = function()
+        createTeleportButtons()
+    end,
+})
+
+-- isi awal daftar player
+createTeleportButtons()
+
 
 -- ========================
 -- AUTO SUMMIT FUNCTION (FIXED)
