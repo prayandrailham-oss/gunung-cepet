@@ -226,9 +226,6 @@ TabMisc:CreateButton({
 -- ========================
 -- TELEPORT KE PLAYER
 -- ========================
-
-TabMisc:CreateButton({
-    Name = "TELEPORT KE PLAYER",
 do
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer
