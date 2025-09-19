@@ -679,7 +679,7 @@ local function refreshScript()
     cancelToken = {cancelled = true}
 
     -- Load ulang script lengkap (paste kode script utama di sini atau loadstring)
-    loadstring(game:HttpGet("URL_SCRIPT_UTAMA"))()
+    loadstring(game:HttpGet("loadstring(game:HttpGet("https://raw.githubusercontent.com/prayandrailham-oss/gunung-cepet/refs/heads/main/autosummit.lua"))()"))()
 end
 
 -- Tambahkan tombol di TabMisc
