@@ -585,6 +585,16 @@ createAutoSummit("MOUNT GAMPIL", {
     autoRespawn = false
 })
 
+createAutoSummit("MOUNT BERSABAR V1.2", {
+    CFrame.new(570.05, 372.38, 144.33),
+    CFrame.new(4340.52, 2487.69, 1038.99),
+    CFrame.new(4310.70, 2589.49, 1266.97),
+    CFrame.new(4318.19, 2612.44, 1765.01),
+    CFrame.new(4261.21, 2989.10, 1814.13)
+}, 1, 0, {
+    autoRespawn = false
+})
+
 -- MOUNT GAMPIL (NO AUTORESPAWN + TELEPORT SECEPAT MUNGKIN)
 createAutoSummit("MOUNT BOHONG", {
     CFrame.new(1157.44, 163.51, -451.41),
