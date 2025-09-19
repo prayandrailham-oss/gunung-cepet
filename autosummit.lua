@@ -567,10 +567,10 @@ createAutoSummit("MOUNT BERSABAR V1.2", {
     autoRespawn = false
 })
 
-createAutoSummit("MOUNT PRAU", {
-    CFrame.new(535.80, 141.78, 81.72),
-    CFrame.new(-537.52, 212.32, -477.41),
-    CFrame.new(-1357.31, 480.24, -1539.66),
+createAutoSummit("MOUNT PARVATRA", {
+    CFrame.new(133.02, 132.44, 417.82),
+    CFrame.new(525.04, 508.44, 2381.48),
+    CFrame.new(581.65, 651.69, 2654.95),
 }, 1, 0, {
     autoRespawn = true
 })
