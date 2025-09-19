@@ -357,6 +357,81 @@ TabMisc:CreateSlider({
     end,
 })
 
+
+-- ========================
+-- AUTO SUMMIT FUNCTION (FIXED)
+-- ========================
+local Players = game:GetService("Players")
+local player  = Players.LocalPlayer
+
+local function createAutoSummit(name, positions, respawnDelay, stepDelay, options)
+    local enabled     = false
+    local cancelToken = nil
+    respawnDelay      = respawnDelay or 3
+    stepDelay         = stepDelay or 4
+    options           = options or {}
+    local autoRespawn = (options.autoRespawn ~= false) -- default true
+
+    local function start(char)
+        if cancelToken then cancelToken.cancelled = true end
+        local token = {cancelled = false}
+        cancelToken = token
+
+        task.spawn(function()
+            local hrp = char:WaitForChild("HumanoidRootPart", 10)
+            if not hrp then return end
+
+            while enabled and not token.cancelled and char.Parent do
+                for _, pos in ipairs(positions) do
+                    if not enabled or token.cancelled then break end
+                    hrp = char:FindFirstChild("HumanoidRootPart")
+                    if hrp then
+                        pcall(function()
+                            hrp.CFrame = pos
+                        end)
+                    end
+                    task.wait(stepDelay)
+                end
+
+                -- Hanya respawn kalau autoRespawn = true
+                if autoRespawn and enabled and not token.cancelled and char:FindFirstChild("Humanoid") then
+                    task.wait(respawnDelay)
+                    pcall(function()
+                        char:BreakJoints()
+                    end)
+                end
+
+                task.wait(0.5)
+            end
+        end)
+    end
+
+    player.CharacterAdded:Connect(function(char)
+        if enabled then
+            task.wait(1)
+            local hrp = char:WaitForChild("HumanoidRootPart", 10)
+            if hrp then
+                hrp.CFrame = positions[#positions]
+            end
+            start(char)
+        end
+    end)
+
+    -- Toggle di tab AUTO SUMMIT
+    TabAuto:CreateToggle({
+        Name = name,
+        CurrentValue = false,
+        Callback = function(value)
+            enabled = value
+            if enabled and player.Character then
+                start(player.Character)
+            elseif cancelToken then
+                cancelToken.cancelled = true
+                cancelToken = nil
+            end
+        end,
+    })
+
     -- Button teleport ke puncak di tab TELEPORT PUNCAK
     TabTp:CreateButton({
         Name = "PUNCAK " .. name,
