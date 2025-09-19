@@ -223,6 +223,55 @@ TabMisc:CreateButton({
         loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Gui-Fly-v3-37111"))()
     end,
 })
+-- ========================
+-- TELEPORT KE PLAYER
+-- ========================
+
+TabMisc:CreateButton({
+    Name = "TELEPORT KE PLAYER",
+do
+    local Players = game:GetService("Players")
+    local LocalPlayer = Players.LocalPlayer
+
+    -- Function teleport ke target
+    local function teleportToPlayer(targetName)
+        local target = Players:FindFirstChild(targetName)
+        if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+            local hrp = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                hrp.CFrame = target.Character.HumanoidRootPart.CFrame + Vector3.new(0,3,0)
+            end
+        end
+    end
+
+    -- Dropdown pilih player
+    local playerDropdown = TabMisc:CreateDropdown({
+        Name = "Teleport ke Player",
+        Options = {},
+        CurrentOption = "",
+        Callback = function(selected)
+            teleportToPlayer(selected)
+        end,
+    })
+
+    -- Function update list player
+    local function updatePlayerList()
+        local names = {}
+        for _, plr in ipairs(Players:GetPlayers()) do
+            if plr ~= LocalPlayer then
+                table.insert(names, plr.Name)
+            end
+        end
+        playerDropdown:Refresh(names, true)
+    end
+
+    -- Update awal
+    updatePlayerList()
+
+    -- Update otomatis kalau ada player join/leave
+    Players.PlayerAdded:Connect(updatePlayerList)
+    Players.PlayerRemoving:Connect(updatePlayerList)
+end
 
 TabMisc:CreateButton({
     Name = "INFINITE YIELD",
