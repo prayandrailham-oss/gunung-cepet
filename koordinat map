@@ -1,0 +1,136 @@
+-- Robust position logger for executors without console
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
+local plr = Players.LocalPlayer
+if not plr then
+    -- wait for player (if executor inject sangat awal)
+    plr = Players:GetPropertyChangedSignal("LocalPlayer") and Players.LocalPlayer or nil
+    local t = 0
+    while not plr and t < 10 do
+        plr = Players.LocalPlayer
+        task.wait(0.2); t = t + 0.2
+    end
+end
+
+-- Create simple GUI
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "PosLoggerGUI"
+screenGui.ResetOnSpawn = false
+-- Parent either CoreGui (if allowed) or PlayerGui
+local okParent = pcall(function() screenGui.Parent = game.CoreGui end)
+if not okParent then
+    -- fallback
+    screenGui.Parent = plr:WaitForChild("PlayerGui")
+end
+
+local label = Instance.new("TextLabel", screenGui)
+label.Size = UDim2.new(0, 520, 0, 40)
+label.Position = UDim2.new(0, 8, 0, 8)
+label.BackgroundTransparency = 0.3
+label.BackgroundColor3 = Color3.fromRGB(20,20,20)
+label.TextColor3 = Color3.fromRGB(255,255,255)
+label.TextScaled = true
+label.Font = Enum.Font.SourceSansSemibold
+label.Text = "PosLogger: menunggu character..."
+
+local info = Instance.new("TextLabel", screenGui)
+info.Size = UDim2.new(0, 520, 0, 20)
+info.Position = UDim2.new(0, 8, 0, 50)
+info.BackgroundTransparency = 1
+info.TextColor3 = Color3.fromRGB(200,200,200)
+info.TextScaled = true
+info.Font = Enum.Font.SourceSans
+info.Text = "Tekan L = notif; C = salin ke clipboard; R = tutup GUI"
+
+local running = true
+local function formatCFrame(cf)
+    if not cf then return "nil" end
+    return string.format("CFrame.new(%.2f, %.2f, %.2f)", cf.X, cf.Y, cf.Z)
+end
+
+-- update loop
+RunService.RenderStepped:Connect(function()
+    if not running then return end
+    local char = plr.Character
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    if hrp then
+        label.Text = "PosLogger: " .. formatCFrame(hrp.CFrame.Position)
+    else
+        label.Text = "PosLogger: karakter belum siap..."
+    end
+end)
+
+-- helper: try send notification
+local function tryNotify(text)
+    pcall(function()
+        -- some games disable SetCore, pcall protects
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Koordinat",
+            Text = text,
+            Duration = 6
+        })
+    end)
+end
+
+-- helper: try setclipboard
+local function tryClipboard(text)
+    local ok, err = pcall(function()
+        if setclipboard then
+            setclipboard(text)
+        elseif syn and syn.request then
+            -- no standard setclipboard fallback; many executors provide setclipboard global
+            error("no clipboard function")
+        else
+            error("no setclipboard")
+        end
+    end)
+    return ok
+end
+
+-- key handlers
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    if input.UserInputType == Enum.UserInputType.Keyboard then
+        local key = input.KeyCode
+        local char = plr.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        local cf = hrp and hrp.CFrame
+        if key == Enum.KeyCode.R then
+            -- close GUI
+            running = false
+            pcall(function() screenGui:Destroy() end)
+            tryNotify("PosLogger dimatikan.")
+        elseif key == Enum.KeyCode.L then
+            if cf then
+                local s = formatCFrame(cf.Position)
+                tryNotify(s)
+            else
+                tryNotify("Karakter belum siap.")
+            end
+        elseif key == Enum.KeyCode.C then
+            if cf then
+                local s = formatCFrame(cf.Position)
+                local ok = tryClipboard(s)
+                if ok then
+                    tryNotify("Tersalin ke clipboard: "..s)
+                else
+                    tryNotify("Gagal salin clipboard. Copy manual: "..s)
+                end
+            else
+                tryNotify("Karakter belum siap.")
+            end
+        end
+    end
+end)
+
+-- fallback: bila GUI tidak terlihat karena parent, beri chat message (paling visible)
+pcall(function()
+    -- print ke chat sebagai fallback satu kali
+    local char = plr.Character
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    if hrp then
+        game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("PosLogger aktif. Tekan L untuk notif, C untuk salin, R untuk stop.", "All")
+    end
+end)
