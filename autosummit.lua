@@ -224,51 +224,50 @@ TabMisc:CreateButton({
     end,
 })
 -- ========================
--- TELEPORT KE PLAYER
+-- TELEPORT TO PLAYER (with Refresh)
 -- ========================
-do
-    local Players = game:GetService("Players")
-    local LocalPlayer = Players.LocalPlayer
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local dropdown -- simpan dropdown biar bisa di-refresh
 
-    -- Function teleport ke target
-    local function teleportToPlayer(targetName)
-        local target = Players:FindFirstChild(targetName)
-        if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
-            local hrp = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-            if hrp then
-                hrp.CFrame = target.Character.HumanoidRootPart.CFrame + Vector3.new(0,3,0)
-            end
+-- fungsi buat update dropdown
+local function updatePlayerList()
+    local names = {}
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p ~= player then
+            table.insert(names, p.Name)
         end
     end
-
-    -- Dropdown pilih player
-    local playerDropdown = TabMisc:CreateDropdown({
-        Name = "Teleport ke Player",
-        Options = {},
-        CurrentOption = "",
-        Callback = function(selected)
-            teleportToPlayer(selected)
-        end,
-    })
-
-    -- Function update list player
-    local function updatePlayerList()
-        local names = {}
-        for _, plr in ipairs(Players:GetPlayers()) do
-            if plr ~= LocalPlayer then
-                table.insert(names, plr.Name)
-            end
-        end
-        playerDropdown:Refresh(names, true)
+    if dropdown then
+        dropdown:SetOptions(names) -- update pilihan di dropdown
     end
-
-    -- Update awal
-    updatePlayerList()
-
-    -- Update otomatis kalau ada player join/leave
-    Players.PlayerAdded:Connect(updatePlayerList)
-    Players.PlayerRemoving:Connect(updatePlayerList)
 end
+
+-- bikin dropdown teleport
+dropdown = TabMisc:CreateDropdown({
+    Name = "Teleport ke Player",
+    Options = {}, -- kosong dulu, nanti diisi lewat updatePlayerList
+    CurrentOption = "",
+    Callback = function(selected)
+        local target = Players:FindFirstChild(selected)
+        if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+            player.Character.HumanoidRootPart.CFrame =
+                target.Character.HumanoidRootPart.CFrame + Vector3.new(0, 3, 0)
+        end
+    end,
+})
+
+-- tombol refresh daftar player
+TabMisc:CreateButton({
+    Name = "🔄 Refresh Player List",
+    Callback = function()
+        updatePlayerList()
+    end,
+})
+
+-- isi awal daftar player
+updatePlayerList()
+
 
 TabMisc:CreateButton({
     Name = "INFINITE YIELD",
