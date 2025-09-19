@@ -572,7 +572,7 @@ createAutoSummit("MOUNT PARVATRA", {
     CFrame.new(525.04, 508.44, 2381.48),
     CFrame.new(581.65, 651.69, 2654.95),
 }, 1, 0, {
-    autoRespawn = true
+    autoRespawn = false
 })
 
 -- MOUNT GAMPIL (NO AUTORESPAWN + TELEPORT SECEPAT MUNGKIN)
