@@ -570,7 +570,7 @@ createAutoSummit("MOUNT BERSABAR V1.2", {
 createAutoSummit("MOUNT APASIH", {
     CFrame.new(-433.77, 99.12, -558.47),
     CFrame.new(-2756.41, 1555.41, 2878.60),
-    CFrame.new(-3096.30, 1956.44, 3020.90)
+    CFrame.new(-3111.57, 1956.44, 3021.09),
 }, 1, 1, {
     autoRespawn = true
 })
