@@ -223,50 +223,46 @@ TabMisc:CreateButton({
         loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Gui-Fly-v3-37111"))()
     end,
 })
+
 -- ========================
--- TELEPORT TO PLAYER (with Refresh)
+-- TELEPORT TO PLAYER (SAFE VERSION)
 -- ========================
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
-local dropdown -- simpan dropdown biar bisa di-refresh
 
--- fungsi buat update dropdown
-local function updatePlayerList()
-    local names = {}
-    for _, p in ipairs(Players:GetPlayers()) do
-        if p ~= player then
-            table.insert(names, p.Name)
+local function createTeleportButtons()
+    for _, btn in pairs(TabMisc:GetChildren()) do
+        if btn.Name and string.find(btn.Name, "TP: ") then
+            btn:Destroy() -- hapus tombol lama biar gak numpuk
         end
     end
-    if dropdown then
-        dropdown:SetOptions(names) -- update pilihan di dropdown
+
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p ~= player then
+            TabMisc:CreateButton({
+                Name = "TP: " .. p.Name,
+                Callback = function()
+                    local target = p.Character and p.Character:FindFirstChild("HumanoidRootPart")
+                    local me = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+                    if target and me then
+                        me.CFrame = target.CFrame + Vector3.new(0, 3, 0)
+                    end
+                end,
+            })
+        end
     end
 end
 
--- bikin dropdown teleport
-dropdown = TabMisc:CreateDropdown({
-    Name = "Teleport ke Player",
-    Options = {}, -- kosong dulu, nanti diisi lewat updatePlayerList
-    CurrentOption = "",
-    Callback = function(selected)
-        local target = Players:FindFirstChild(selected)
-        if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
-            player.Character.HumanoidRootPart.CFrame =
-                target.Character.HumanoidRootPart.CFrame + Vector3.new(0, 3, 0)
-        end
-    end,
-})
-
--- tombol refresh daftar player
+-- tombol buat refresh daftar player
 TabMisc:CreateButton({
-    Name = "🔄 Refresh Player List",
+    Name = "🔄 Refresh TP Player",
     Callback = function()
-        updatePlayerList()
+        createTeleportButtons()
     end,
 })
 
 -- isi awal daftar player
-updatePlayerList()
+createTeleportButtons()
 
 
 TabMisc:CreateButton({
