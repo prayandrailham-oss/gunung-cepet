@@ -232,6 +232,14 @@ TabMisc:CreateButton({
 })
 
 TabMisc:CreateButton({
+    Name = "KOORDINAT MAP",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/prayandrailham-oss/gunung-cepet/refs/heads/main/koordinat%20map"))()
+    end,
+})
+
+
+TabMisc:CreateButton({
     Name = "INFINITE YIELD",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
