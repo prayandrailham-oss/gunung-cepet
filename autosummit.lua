@@ -225,6 +225,13 @@ TabMisc:CreateButton({
 })
 
 TabMisc:CreateButton({
+    Name = "TELEPORT V3",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/prayandrailham-oss/gunung-cepet/refs/heads/main/teleport"))()
+    end,
+})
+
+TabMisc:CreateButton({
     Name = "INFINITE YIELD",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
