@@ -653,38 +653,3 @@ createAutoSummit("MOUNT LABIRIN", {
 }, 1, 1, {   -- delay antar posisi = 2 detik, delay respawn = 3 detik
     autoRespawn = true
 })
-
--- FUNGSI REFRESH SCRIPT
-local function refreshScript()
-    -- Stop semua animasi
-    animating = false
-    currentMode = nil
-
-    -- Hapus semua UI Rayfield
-    if Window and Window.MainFrame then
-        Window.MainFrame:Destroy()
-    end
-
-    -- Hapus semua Sparkles di character
-    local char = game.Players.LocalPlayer.Character
-    if char then
-        for _, part in ipairs(char:GetChildren()) do
-            if part:IsA("BasePart") and part:FindFirstChild("Sparkles") then
-                part.Sparkles:Destroy()
-            end
-        end
-    end
-
-    -- Optional: Hentikan semua auto-summit thread
-    cancelToken = {cancelled = true}
-
-    -- Load ulang script lengkap (paste kode script utama di sini atau loadstring)
-    loadstring(game:HttpGet("loadstring(game:HttpGet("https://raw.githubusercontent.com/prayandrailham-oss/gunung-cepet/refs/heads/main/autosummit.lua"))()"))()
-end
-
--- Tambahkan tombol di TabMisc
-TabMisc:CreateButton({
-    Name = "REFRESH SCRIPT",
-    Callback = refreshScript
-})
-
