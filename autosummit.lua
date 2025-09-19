@@ -231,6 +231,7 @@ TabMisc:CreateButton({
     end,
 })
 
+
 TabMisc:CreateButton({
     Name = "SPEED COIL",
     Callback = function()
@@ -277,6 +278,8 @@ TabMisc:CreateButton({
         end)
     end,
 })
+
+
 
 TabMisc:CreateButton({
     Name = "SC AUTO WALK",
