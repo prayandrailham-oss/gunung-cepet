@@ -207,33 +207,6 @@ local function createTitleButton(name, textContent)
     })
 end
 
--- ========================================
--- AUTO RELOAD SCRIPT DARI RAW GITHUB
--- ========================================
-local RAW_URL = "https://raw.githubusercontent.com/prayandrailham-oss/gunung-cepet/refs/heads/main/autosummit.lua" 
--- ganti link ini dengan RAW script kamu
-
-local function reloadScript()
-    local success, response = pcall(function()
-        return game:HttpGet(RAW_URL)
-    end)
-
-    if success and response then
-        loadstring(response)()
-        warn("[AutoSummit] Script berhasil direload dari GitHub!")
-    else
-        warn("[AutoSummit] Gagal ambil script baru:", response)
-    end
-end
-
--- Tombol reload di TabCre
-TabCre:CreateButton({
-    Name = "🔄 Reload Script",
-    Callback = function()
-        reloadScript()
-    end
-})
-
 -- TITLE LIST
 createTitleButton("👑 OWNER 👑", "👑 OWNER 👑")
 createTitleButton("🛡️ HeadAdmin 🛡️", "🛡️ HeadAdmin 🛡️")
@@ -680,3 +653,38 @@ createAutoSummit("MOUNT LABIRIN", {
 }, 1, 1, {   -- delay antar posisi = 2 detik, delay respawn = 3 detik
     autoRespawn = true
 })
+
+-- FUNGSI REFRESH SCRIPT
+local function refreshScript()
+    -- Stop semua animasi
+    animating = false
+    currentMode = nil
+
+    -- Hapus semua UI Rayfield
+    if Window and Window.MainFrame then
+        Window.MainFrame:Destroy()
+    end
+
+    -- Hapus semua Sparkles di character
+    local char = game.Players.LocalPlayer.Character
+    if char then
+        for _, part in ipairs(char:GetChildren()) do
+            if part:IsA("BasePart") and part:FindFirstChild("Sparkles") then
+                part.Sparkles:Destroy()
+            end
+        end
+    end
+
+    -- Optional: Hentikan semua auto-summit thread
+    cancelToken = {cancelled = true}
+
+    -- Load ulang script lengkap (paste kode script utama di sini atau loadstring)
+    loadstring(game:HttpGet("URL_SCRIPT_UTAMA"))()
+end
+
+-- Tambahkan tombol di TabMisc
+TabMisc:CreateButton({
+    Name = "REFRESH SCRIPT",
+    Callback = refreshScript
+})
+
