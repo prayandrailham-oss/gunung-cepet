@@ -1,9 +1,9 @@
 -- ========================
 -- LOAD RAYFIELD UI
 -- ========================
-local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+_G.Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
-local Window = Rayfield:CreateWindow({
+local Window = _G.Rayfield:CreateWindow({
     Name = "SCRIPTS AUTO SUMMIT V3 || By Trzzhub",
     Icon = 0,
     LoadingTitle = "Loading...",
@@ -30,11 +30,11 @@ local Window = Rayfield:CreateWindow({
 -- ========================
 -- TABS
 -- ========================
-local TabAuto   = Window:CreateTab("AUTO SUMMIT", 4483362458)
-local TabTp     = Window:CreateTab("PUNCAK", 4483362458)
-local TabMisc   = Window:CreateTab("SCRIPT", 4483362458)
-local TabHub    = Window:CreateTab("ANIMASI", 4483362458)
-local TabCre    = Window:CreateTab("TITLE", 4483362458)
+_G.TabAuto   = Window:CreateTab("AUTO SUMMIT", 4483362458)
+_G.TabTp     = Window:CreateTab("PUNCAK", 4483362458)
+_G.TabMisc   = Window:CreateTab("SCRIPT", 4483362458)
+_G.TabHub    = Window:CreateTab("ANIMASI", 4483362458)
+_G.TabCre    = Window:CreateTab("TITLE", 4483362458)
 
 -- Fungsi animasi kosong
 function startAnimation(name, list)
@@ -161,16 +161,50 @@ TabHub:CreateButton({
     end
 })
 
--- Auto re-apply saat respawn
+-- Auto reapply saat respawn
 local player = game.Players.LocalPlayer
 player.CharacterAdded:Connect(function(char)
-    if currentMode then
-        task.wait(1) -- tunggu karakter selesai spawn
-        local sparklesList = applySparkles(char)
-        startAnimation(currentMode, sparklesList)
+    if _G.currentMode then
+        task.wait(1)
+        local sparks = _G.applySparkles(char)
+        _G.startAnimation(_G.currentMode, sparks)
     end
 end)
 
+-- ========================
+-- REFRESH SCRIPT BUTTON
+-- ========================
+local function refreshScript()
+    local char = player.Character
+    -- Stop animasi
+    _G.animating = false
+    _G.currentMode = nil
+
+    -- Hapus semua sparkles
+    if char then
+        for _, part in ipairs(char:GetChildren()) do
+            if part:IsA("BasePart") and part:FindFirstChild("Sparkles") then
+                part.Sparkles:Destroy()
+            end
+        end
+    end
+
+    -- Stop auto summit
+    if _G.cancelToken then
+        _G.cancelToken.cancelled = true
+        _G.cancelToken = nil
+    end
+
+    -- Load ulang script utama
+    pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/prayandrailham-oss/gunung-cepet/refs/heads/main/autosummit.lua"))()
+    end)
+end
+
+_G.TabMisc:CreateButton({
+    Name = "REFRESH SCRIPT",
+    Callback = refreshScript
+})
 -- ========================
 -- TITLE BUTTON FUNCTION
 -- ========================
