@@ -1,0 +1,301 @@
+-- Checkpoint Scanner (fixed spawn + stable numbering + summit support)
+-- Paste & run in your executor while in the game
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Debris = game:GetService("Debris")
+local playerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+-- remove old GUI if exists
+local EXIST_NAME = "CheckpointScannerGUI_33hammm"
+local old = playerGui:FindFirstChild(EXIST_NAME)
+if old then old:Destroy() end
+
+-- create GUI
+local screen = Instance.new("ScreenGui")
+screen.Name = EXIST_NAME
+screen.ResetOnSpawn = false
+screen.Parent = playerGui
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 380, 0, 360)
+frame.Position = UDim2.new(0.05,0,0.15,0)
+frame.BackgroundColor3 = Color3.fromRGB(30,34,44)
+frame.BorderSizePixel = 0
+frame.Parent = screen
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0,10)
+
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1,0,0,36)
+title.BackgroundColor3 = Color3.fromRGB(20,24,34)
+title.TextColor3 = Color3.fromRGB(255,255,255)
+title.Text = "Checkpoint Scanner"
+title.Font = Enum.Font.GothamBold
+title.TextSize = 18
+title.BorderSizePixel = 0
+
+local closeBtn = Instance.new("TextButton", frame)
+closeBtn.Size = UDim2.new(0,36,0,28)
+closeBtn.Position = UDim2.new(1,-40,0,4)
+closeBtn.Text = "✖"
+closeBtn.Font = Enum.Font.GothamSemibold
+closeBtn.TextSize = 16
+closeBtn.TextColor3 = Color3.fromRGB(255,255,255)
+closeBtn.BackgroundColor3 = Color3.fromRGB(200,60,60)
+closeBtn.BorderSizePixel = 0
+
+local minBtn = Instance.new("TextButton", frame)
+minBtn.Size = UDim2.new(0,36,0,28)
+minBtn.Position = UDim2.new(1,-80,0,4)
+minBtn.Text = "━"
+minBtn.Font = Enum.Font.GothamSemibold
+minBtn.TextSize = 16
+minBtn.TextColor3 = Color3.fromRGB(40,40,40)
+minBtn.BackgroundColor3 = Color3.fromRGB(255,200,80)
+minBtn.BorderSizePixel = 0
+
+local scanBtn = Instance.new("TextButton", frame)
+scanBtn.Size = UDim2.new(0,140,0,34)
+scanBtn.Position = UDim2.new(0,12,0,46)
+scanBtn.Text = "Scan Checkpoints"
+scanBtn.Font = Enum.Font.Gotham
+scanBtn.TextSize = 14
+scanBtn.BackgroundColor3 = Color3.fromRGB(90,200,120)
+scanBtn.BorderSizePixel = 0
+
+local statusLabel = Instance.new("TextLabel", frame)
+statusLabel.Size = UDim2.new(0,210,0,34)
+statusLabel.Position = UDim2.new(0,160,0,46)
+statusLabel.Text = "Ready"
+statusLabel.TextXAlignment = Enum.TextXAlignment.Left
+statusLabel.Font = Enum.Font.Gotham
+statusLabel.TextSize = 14
+statusLabel.TextColor3 = Color3.fromRGB(220,220,220)
+statusLabel.BackgroundTransparency = 1
+
+local resultsFrame = Instance.new("Frame", frame)
+resultsFrame.Size = UDim2.new(1,-24,1,-120)
+resultsFrame.Position = UDim2.new(0,12,0,90)
+resultsFrame.BackgroundTransparency = 1
+
+local scroll = Instance.new("ScrollingFrame", resultsFrame)
+scroll.Size = UDim2.new(1,0,1,0)
+scroll.CanvasSize = UDim2.new(0,0,0,0)
+scroll.ScrollBarThickness = 8
+scroll.ScrollBarImageColor3 = Color3.fromRGB(200,200,200)
+scroll.BackgroundTransparency = 1
+
+local listLayout = Instance.new("UIListLayout", scroll)
+listLayout.SortOrder = Enum.SortOrder.LayoutOrder
+listLayout.Padding = UDim.new(0,6)
+
+-- state untuk simpan hasil lama
+local savedCheckpoints = {}  -- [name] = CFrame
+local orderList = {}         -- urutan tetap
+
+-- deteksi nama checkpoint
+local patterns = {
+    "checkpoint",
+    "cp",
+    "pos pemeriksaan",
+    "pos_pemeriksaan",
+    "pemeriksaan",
+    "check",
+    "flag",
+    "spawn"
+}
+local function lowerContainsAny(name)
+    local ln = name:lower()
+    for _,p in ipairs(patterns) do
+        if string.find(ln, p, 1, true) then
+            return true
+        end
+    end
+    return false
+end
+
+local function getBasePartFrom(obj)
+    if not obj then return nil end
+    if obj:IsA("BasePart") then return obj end
+    if obj:IsA("Model") then
+        if obj.PrimaryPart and obj.PrimaryPart:IsA("BasePart") then return obj.PrimaryPart end
+        return obj:FindFirstChildWhichIsA("BasePart")
+    end
+    return nil
+end
+
+local function fmtVec(v)
+    return string.format("CFrame.new(%.2f, %.2f, %.2f)", v.X, v.Y, v.Z)
+end
+
+local function safeSetClipboard(str)
+    local ok = false
+    pcall(function() if setclipboard then setclipboard(str); ok = true end end)
+    pcall(function() if syn and syn.set_clipboard then syn.set_clipboard(str); ok = true end end)
+    return ok
+end
+
+local function createResultEntry(index, name, posCFrame)
+    local entry = Instance.new("Frame")
+    entry.Size = UDim2.new(1,-6,0,44)
+    entry.BackgroundColor3 = Color3.fromRGB(40,44,54)
+    entry.BorderSizePixel = 0
+    entry.Parent = scroll
+    Instance.new("UICorner", entry).CornerRadius = UDim.new(0,6)
+
+    local label = Instance.new("TextLabel", entry)
+    label.Size = UDim2.new(1,-120,1,0)
+    label.Position = UDim2.new(0,8,0,0)
+    label.BackgroundTransparency = 1
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Font = Enum.Font.Gotham
+    label.TextSize = 14
+    label.TextColor3 = Color3.fromRGB(230,230,230)
+    label.Text = string.format("[%d] %s • %s", index, name, fmtVec(posCFrame.Position))
+
+    local btnCopy = Instance.new("TextButton", entry)
+    btnCopy.Size = UDim2.new(0,54,0,30)
+    btnCopy.Position = UDim2.new(1,-110,0,7)
+    btnCopy.Text = "Copy"
+    btnCopy.Font = Enum.Font.Gotham
+    btnCopy.TextSize = 14
+    btnCopy.BackgroundColor3 = Color3.fromRGB(100,140,255)
+    btnCopy.TextColor3 = Color3.fromRGB(255,255,255)
+    btnCopy.BorderSizePixel = 0
+
+    local btnTP = Instance.new("TextButton", entry)
+    btnTP.Size = UDim2.new(0,54,0,30)
+    btnTP.Position = UDim2.new(1,-54,0,7)
+    btnTP.Text = "TP"
+    btnTP.Font = Enum.Font.Gotham
+    btnTP.TextSize = 14
+    btnTP.BackgroundColor3 = Color3.fromRGB(120,220,140)
+    btnTP.TextColor3 = Color3.fromRGB(20,20,20)
+    btnTP.BorderSizePixel = 0
+
+    btnCopy.MouseButton1Click:Connect(function()
+        local s = fmtVec(posCFrame.Position)
+        local ok = safeSetClipboard(s)
+        statusLabel.Text = ok and ("Copied: "..s) or "Clipboard not available"
+        btnCopy.Text = "✓"
+        task.delay(0.6,function() btnCopy.Text="Copy" end)
+    end)
+
+    btnTP.MouseButton1Click:Connect(function()
+        local char = LocalPlayer.Character
+        if not char then return end
+        local root = char:FindFirstChild("HumanoidRootPart") or char:FindFirstChildWhichIsA("BasePart")
+        if not root then return end
+        local targetPos = posCFrame.Position + Vector3.new(0,3,0)
+        local safety = Instance.new("Part")
+        safety.Size = Vector3.new(20,1,20)
+        safety.Anchored = true
+        safety.CanCollide = true
+        safety.Transparency = 1
+        safety.CFrame = CFrame.new(targetPos - Vector3.new(0,2,0))
+        safety.Parent = workspace
+        Debris:AddItem(safety, 3)
+        if char:IsA("Model") and char.PrimaryPart then
+            char:PivotTo(CFrame.new(targetPos))
+        elseif root then
+            root.CFrame = CFrame.new(targetPos)
+        end
+        statusLabel.Text = ("Teleported to [%d] %s"):format(index,name)
+    end)
+end
+
+local function tryExtractNumber(name)
+    for num in string.gmatch(name, "%d+") do
+        local n = tonumber(num)
+        if n then return n end
+    end
+    return nil
+end
+
+local function refreshUI()
+    for _,c in ipairs(scroll:GetChildren()) do
+        if c:IsA("Frame") then c:Destroy() end
+    end
+    local idx = 0
+    for _,nm in ipairs(orderList) do
+        idx += 1
+        createResultEntry(idx, nm, savedCheckpoints[nm])
+    end
+    scroll.CanvasSize = UDim2.new(0,0,0,listLayout.AbsoluteContentSize.Y + 12)
+end
+
+local function scanCheckpoints()
+    statusLabel.Text = "Scanning..."
+    local scanned = 0
+
+    -- Spawn selalu fixed urutan 1
+    if not savedCheckpoints["Spawn Point"] then
+        local hrp = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            savedCheckpoints["Spawn Point"] = hrp.CFrame
+            table.insert(orderList, 1, "Spawn Point")
+        end
+    end
+
+    -- cari checkpoint biasa
+    for _,obj in ipairs(workspace:GetDescendants()) do
+        scanned += 1
+        local nm = obj.Name or ""
+        if lowerContainsAny(nm) then
+            local part = getBasePartFrom(obj)
+            if part then
+                if not savedCheckpoints[nm] then
+                    savedCheckpoints[nm] = part.CFrame
+                    table.insert(orderList, nm)
+                end
+            end
+        end
+    end
+
+    -- cari summit/puncak
+    for _,obj in ipairs(workspace:GetDescendants()) do
+        local nm = obj.Name:lower()
+        if nm:find("summit") or nm:find("puncak") then
+            local part = getBasePartFrom(obj)
+            if part then
+                if not savedCheckpoints["Summit/Puncak"] then
+                    savedCheckpoints["Summit/Puncak"] = part.CFrame
+                    table.insert(orderList, "Summit/Puncak")
+                end
+            end
+        end
+    end
+
+    -- Sort orderList ulang: Spawn tetap paling atas, Summit/Puncak selalu terakhir
+    table.sort(orderList, function(a,b)
+        if a == "Spawn Point" then return true end
+        if b == "Spawn Point" then return false end
+        if a == "Summit/Puncak" then return false end
+        if b == "Summit/Puncak" then return true end
+        local na, nb = tryExtractNumber(a), tryExtractNumber(b)
+        if na and nb then return na < nb end
+        if na and not nb then return true end
+        if nb and not na then return false end
+        return a < b
+    end)
+
+    refreshUI()
+    statusLabel.Text = ("Scan done — %d checkpoints (scanned %d objects)"):format(#orderList, scanned)
+end
+
+scanBtn.MouseButton1Click:Connect(function()
+    task.spawn(scanCheckpoints)
+end)
+
+closeBtn.MouseButton1Click:Connect(function() screen:Destroy() end)
+
+local minimized=false
+minBtn.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    for _,c in ipairs(frame:GetChildren()) do
+        if c ~= title and c ~= closeBtn and c ~= minBtn then
+            c.Visible = not minimized
+        end
+    end
+    frame.Size = minimized and UDim2.new(0,220,0,36) or UDim2.new(0,380,0,360)
+end)
