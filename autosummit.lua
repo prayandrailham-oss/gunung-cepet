@@ -4,10 +4,10 @@
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "SCRIPTS AUTO SUMMIT V3 || By Trzzhub",
+    Name = "SCRIPTS AUTO SUMMIT V3 || By hamhamham",
     Icon = 0,
     LoadingTitle = "Loading...",
-    LoadingSubtitle = "By Trzzhub",
+    LoadingSubtitle = "By hamhamham",
     ShowText = "Scripts",
     Theme = "DarkBlue",
     ToggleUIKeybind = "K",
