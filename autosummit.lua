@@ -637,8 +637,8 @@ createAutoSummit("MOUNT HERENSUGEA", {
 })
 
 createAutoSummit("MOUNT ARWINA", {
-    CFrame.new(854.00, 101.92, 886.00),      -- CP 1
-    CFrame.new(250.74, 973.40, 758.16),    -- SUM
+    CFrame.new(798.78, 125.09, -524.44),      -- CP 1
+    CFrame.new(-1646.46, 1414.61, -799.04),    -- SUM
 }, 1, 0.5, {   -- delay antar posisi = 2 detik
     autoRespawn = true
 })
