@@ -640,7 +640,7 @@ createAutoSummit("MOUNT CRATCH", {
     CFrame.new(-495.55, 249.28, 946.51),      -- CP 1
     CFrame.new(773.52, 1384.44, -590.52),    -- SUM
 }, 1, 0.5, {   -- delay antar posisi = 2 detik
-    autoRespawn = true
+    autoRespawn = false
 })
 
 
