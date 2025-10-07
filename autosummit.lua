@@ -636,6 +636,13 @@ createAutoSummit("MOUNT HERENSUGEA", {
     autoRespawn = true
 })
 
+createAutoSummit("MOUNT CHIBI", {
+    CFrame.new(-59.99, 4568.44, -14382.22),      -- CP 1
+    CFrame.new(1005.49, 6297.84, -4042.36),    -- SUM
+}, 1, 1, {   -- delay antar posisi = 2 detik
+    autoRespawn = true
+})
+
 createAutoSummit("MOUNT CRATCH", {
     CFrame.new(-914.11, 248.73, 1113.08),      -- CP 1
     CFrame.new(773.52, 1384.44, -590.52),    -- SUM
