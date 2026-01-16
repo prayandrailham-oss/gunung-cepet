@@ -16,7 +16,7 @@ local Window = Rayfield:CreateWindow({
         FolderName = nil,
         FileName = "TrzzHub"
     },
-    KeySystem = true,
+    KeySystem = false,
     KeySettings = {
         Title = "TrzzHub",
         Subtitle = "Key System",
