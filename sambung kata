@@ -251,3 +251,39 @@ end)
 
 -- Event setiap kali teks di SearchBox berubah
 InputBox:GetPropertyChangedSignal("Text"):Connect(cariKata)
+
+-- // 8. AUTO DETECT LAST LETTER SYSTEM // --
+
+task.spawn(function()
+
+    local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+    -- Function untuk mencari TextLabel yang kemungkinan adalah kata game
+    local function connectToWordLabel(label)
+        if label:IsA("TextLabel") then
+            label:GetPropertyChangedSignal("Text"):Connect(function()
+
+                local currentWord = string.lower(label.Text or "")
+
+                -- Ambil huruf terakhir (hanya huruf, bukan angka/simbol)
+                local lastLetter = string.match(currentWord, "%a$")
+
+                if lastLetter and #lastLetter == 1 then
+                    InputBox.Text = lastLetter
+                end
+
+            end)
+        end
+    end
+
+    -- Connect ke semua TextLabel yang sudah ada
+    for _, obj in pairs(PlayerGui:GetDescendants()) do
+        connectToWordLabel(obj)
+    end
+
+    -- Connect ke TextLabel yang muncul setelahnya
+    PlayerGui.DescendantAdded:Connect(function(obj)
+        connectToWordLabel(obj)
+    end)
+
+end)
