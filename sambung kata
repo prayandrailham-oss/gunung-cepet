@@ -252,51 +252,66 @@ end)
 -- Event setiap kali teks di SearchBox berubah
 InputBox:GetPropertyChangedSignal("Text"):Connect(cariKata)
 
--- // 8. AUTO DETECT & AUTO SEARCH SYSTEM (FIXED) // --
+-- // 8. SMART AUTO DETECT (ANTI COUNTDOWN BUG) // --
 
 task.spawn(function()
 
     local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
+    local function isValidWord(text)
+        -- Harus huruf semua dan panjang minimal 3
+        return text:match("^[a-zA-Z]+$") and #text >= 3
+    end
+
     local function connectToWordLabel(label)
+
+        -- Jangan detect GUI milik kita sendiri
+        if label:IsDescendantOf(ScreenGui) then return end
+
         if label:IsA("TextLabel") then
+
             label:GetPropertyChangedSignal("Text"):Connect(function()
 
-                local currentWord = string.lower(label.Text or "")
-                local lastLetter = string.sub(currentWord, -3)
+                local rawText = label.Text or ""
+                local cleanText = string.lower(rawText)
 
-                if lastLetter then
-                    
-                    -- Kosongkan dulu
-                    TeksHasil.Text = ""
-                    
-                    local hasilDitemukan = {}
-                    local limit = 50
+                -- Abaikan angka (countdown) atau text aneh
+                if not isValidWord(cleanText) then
+                    return
+                end
 
-                    for _, kataDiKamus in ipairs(KamusIndonesia) do
-                        if string.sub(kataDiKamus, 1, 1) == lastLetter then
-                            table.insert(hasilDitemukan, string.upper(kataDiKamus))
-                            if #hasilDitemukan >= limit then break end
-                        end
+                -- Ambil huruf terakhir
+                local lastLetter = cleanText:sub(-3)
+
+                -- Jalankan pencarian langsung
+                local hasilDitemukan = {}
+                local limit = 50
+
+                for _, kataDiKamus in ipairs(KamusIndonesia) do
+                    if string.sub(kataDiKamus, 1, 3) == lastLetter then
+                        table.insert(hasilDitemukan, string.upper(kataDiKamus))
+                        if #hasilDitemukan >= limit then break end
                     end
+                end
 
-                    if #hasilDitemukan > 0 then
-                        TeksHasil.Text = table.concat(hasilDitemukan, "\n")
-                        TeksHasil.TextColor3 = NEON_COLOR
-                    else
-                        TeksHasil.Text = ">> NO DATA FOUND <<"
-                        TeksHasil.TextColor3 = Color3.fromRGB(255, 50, 50)
-                    end
+                if #hasilDitemukan > 0 then
+                    TeksHasil.Text = table.concat(hasilDitemukan, "\n")
+                    TeksHasil.TextColor3 = NEON_COLOR
+                else
+                    TeksHasil.Text = ">> NO DATA FOUND <<"
+                    TeksHasil.TextColor3 = Color3.fromRGB(255, 50, 50)
                 end
 
             end)
         end
     end
 
+    -- Connect ke label yang sudah ada
     for _, obj in pairs(PlayerGui:GetDescendants()) do
         connectToWordLabel(obj)
     end
 
+    -- Connect ke label baru
     PlayerGui.DescendantAdded:Connect(function(obj)
         connectToWordLabel(obj)
     end)
