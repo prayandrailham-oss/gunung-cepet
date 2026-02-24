@@ -252,42 +252,55 @@ end)
 -- Event setiap kali teks di SearchBox berubah
 InputBox:GetPropertyChangedSignal("Text"):Connect(cariKata)
 
--- // 8. SMART AUTO DETECT (ANTI COUNTDOWN BUG) // --
+-- =========================================
+-- AUTO DETECT PREFIX (AMBIL 3 HURUF TERAKHIR)
+-- =========================================
 
-label:GetPropertyChangedSignal("Text"):Connect(function()
+local RunService = game:GetService("RunService")
 
-    local rawText = label.Text or ""
-    local cleanText = string.lower(rawText)
+local lastWord = ""
 
-    -- hanya huruf
-    if not cleanText:match("^[a-zA-Z]+$") then
-        return
-    end
+local function GetGameFrame()
+    local player = Players.LocalPlayer
+    local gui = player and player:FindFirstChild("PlayerGui")
+    local inGame = gui and gui:FindFirstChild("InGame")
+    return inGame and inGame:FindFirstChild("Frame")
+end
 
-    local pattern
-
-    if #cleanText >= 3 then
-        pattern = cleanText:sub(-3)
-    else
-        pattern = cleanText:sub(-1)
-    end
-
-    local hasilDitemukan = {}
-    local limit = 50
-
-    for _, kataDiKamus in ipairs(KamusIndonesia) do
-        if string.sub(kataDiKamus, 1, #pattern) == pattern then
-            table.insert(hasilDitemukan, string.upper(kataDiKamus))
-            if #hasilDitemukan >= limit then break end
+local function SimpleGetCurrentWord(frame)
+    if not frame then return "" end
+    
+    -- Cari TextLabel yang biasanya nampilin kata utama
+    for _, obj in ipairs(frame:GetDescendants()) do
+        if obj:IsA("TextLabel") and obj.Visible then
+            local text = obj.Text
+            if text and #text > 2 and not tonumber(text) then
+                -- Hindari countdown angka
+                if not text:match("^%d+$") then
+                    return string.lower(text:gsub("[^%a]", ""))
+                end
+            end
         end
     end
+    
+    return ""
+end
 
-    if #hasilDitemukan > 0 then
-        TeksHasil.Text = table.concat(hasilDitemukan, "\n")
-        TeksHasil.TextColor3 = NEON_COLOR
-    else
-        TeksHasil.Text = ">> NO DATA FOUND <<"
-        TeksHasil.TextColor3 = Color3.fromRGB(255, 50, 50)
+RunService.RenderStepped:Connect(function()
+    local frame = GetGameFrame()
+    if not frame then return end
+    
+    local currentWord = SimpleGetCurrentWord(frame)
+    
+    if currentWord ~= "" and currentWord ~= lastWord then
+        lastWord = currentWord
+        
+        if #currentWord >= 3 then
+            local prefix = currentWord:sub(-3)
+            
+            -- Set ke search box
+            InputBox.Text = prefix
+            cariKata()
+        end
     end
-
 end)
