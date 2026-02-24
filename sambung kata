@@ -266,9 +266,9 @@ task.spawn(function()
                 local currentWord = string.lower(label.Text or "")
 
                 -- Ambil huruf terakhir (hanya huruf, bukan angka/simbol)
-                local lastLetter = string.match(currentWord, "%a$")
+                local lastLetter = string.sub(currentWord, -3)
 
-                if lastLetter and #lastLetter == 1 then
+                if lastLetter and #lastLetter == 3 then
                     InputBox.Text = lastLetter
                 end
 
