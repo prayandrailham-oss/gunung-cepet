@@ -252,36 +252,51 @@ end)
 -- Event setiap kali teks di SearchBox berubah
 InputBox:GetPropertyChangedSignal("Text"):Connect(cariKata)
 
--- // 8. AUTO DETECT LAST LETTER SYSTEM // --
+-- // 8. AUTO DETECT & AUTO SEARCH SYSTEM (FIXED) // --
 
 task.spawn(function()
 
     local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
-    -- Function untuk mencari TextLabel yang kemungkinan adalah kata game
     local function connectToWordLabel(label)
         if label:IsA("TextLabel") then
             label:GetPropertyChangedSignal("Text"):Connect(function()
 
                 local currentWord = string.lower(label.Text or "")
-
-                -- Ambil huruf terakhir (hanya huruf, bukan angka/simbol)
                 local lastLetter = string.sub(currentWord, -3)
 
-                if lastLetter and #lastLetter == 3 then
-                    InputBox.Text = lastLetter
+                if lastLetter then
+                    
+                    -- Kosongkan dulu
+                    TeksHasil.Text = ""
+                    
+                    local hasilDitemukan = {}
+                    local limit = 50
+
+                    for _, kataDiKamus in ipairs(KamusIndonesia) do
+                        if string.sub(kataDiKamus, 1, 1) == lastLetter then
+                            table.insert(hasilDitemukan, string.upper(kataDiKamus))
+                            if #hasilDitemukan >= limit then break end
+                        end
+                    end
+
+                    if #hasilDitemukan > 0 then
+                        TeksHasil.Text = table.concat(hasilDitemukan, "\n")
+                        TeksHasil.TextColor3 = NEON_COLOR
+                    else
+                        TeksHasil.Text = ">> NO DATA FOUND <<"
+                        TeksHasil.TextColor3 = Color3.fromRGB(255, 50, 50)
+                    end
                 end
 
             end)
         end
     end
 
-    -- Connect ke semua TextLabel yang sudah ada
     for _, obj in pairs(PlayerGui:GetDescendants()) do
         connectToWordLabel(obj)
     end
 
-    -- Connect ke TextLabel yang muncul setelahnya
     PlayerGui.DescendantAdded:Connect(function(obj)
         connectToWordLabel(obj)
     end)
