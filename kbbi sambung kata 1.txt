@@ -27519,8 +27519,6 @@ krustasea
 krut
 krutmen
 ks
-ksa
-ksad
 ksagon
 ksah
 ksak
@@ -61042,8 +61040,6 @@ xerografi
 xerosis
 xi
 xifoid
-xii
-xiii
 xilem
 xilena
 xilofon
@@ -61055,8 +61051,6 @@ xilol
 xilologi
 xilonit
 xilosa
-xiv
-xix
 xvi
 xx
 xy
