@@ -19791,11 +19791,14 @@ idulkurban
 ien
 if
 ifah
+iffah
 ifikasi
 ifrad
 ifrit
 iftar
 iftitah
+iftirasy
+ifumi
 ig
 iga
 igal
@@ -26370,9 +26373,7 @@ klusium
 km
 knal
 knalpot
-knifon
-knik
-knikus
+knifo
 knis
 knisi
 kno
@@ -27522,6 +27523,7 @@ ks
 ksagon
 ksah
 ksak
+ksal
 ksaklorida
 ksakta
 ksaltasi
@@ -44013,7 +44015,8 @@ penghujan
 penghukuman
 penghulu
 penghulunya
-penghuni
+penghunias
+
 penghuninya
 penghutanan
 pengi
