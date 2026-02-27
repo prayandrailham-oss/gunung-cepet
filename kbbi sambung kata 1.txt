@@ -39138,7 +39138,6 @@ ncot
 ncr
 ncut
 nd
-nda
 ndabel
 ndahi
 ndak
@@ -39160,6 +39159,11 @@ ndiks
 nding
 ndisitis
 ndium
+ndili
+ndio
+ndikar
+ndiks
+nding
 ndo
 ndod
 ndofit
@@ -61038,7 +61042,7 @@ xerofit
 xeroftalmia
 xerografi
 xerosis
-xi
+xiaomi
 xifoid
 xilem
 xilena
