@@ -1,0 +1,103 @@
+local UIS=game:GetService("UserInputService")
+local p=game.Players.LocalPlayer
+local RS=game:GetService("ReplicatedStorage")
+local RunService=game:GetService("RunService")
+
+local h=workspace.Interiors.Offices[tostring(p.UserId)].Items.Hardware
+local mines=workspace.Interiors.Mines
+local fishing=workspace.Map.World1:WaitForChild("FishingSpots")
+local meteors=workspace.RunTime:WaitForChild("Meteors")
+
+local store=RS.Remotes.Server.Software.Store
+local complete=RS.Remotes.Server.CompletePlayerCodingProgram
+local bubble=RS.Remotes.Server.PopProgrammingBubble
+local ore=RS.Remotes.Server.Mining.UpdateOreHealth
+local fish=RS.Remotes.Server.Fishing.ResolveFishingAttempt
+
+local gui=Instance.new("ScreenGui")
+gui.ResetOnSpawn=false
+gui.Parent=p:WaitForChild("PlayerGui")
+
+local label=Instance.new("TextLabel",gui)
+label.Size=UDim2.new(0,160,0,30)
+label.Position=UDim2.new(1,-170,1,-40)
+label.BackgroundTransparency=1
+label.TextScaled=true
+label.Font=Enum.Font.SourceSansBold
+label.RichText=true
+label.TextStrokeTransparency=0
+label.TextStrokeColor3=Color3.new(0,0,0)
+
+local function setStatus(on)
+    label.Text="<font color='rgb(255,255,255)'>[L] Farm:</font> "..(on and "<font color='rgb(0,255,0)'>ON</font>" or "<font color='rgb(255,0,0)'>OFF</font>")
+end
+
+local run=false
+setStatus(false)
+
+UIS.InputBegan:Connect(function(i,gp)
+    if gp or i.KeyCode~=Enum.KeyCode.L then return end
+    run=not run
+    setStatus(run)
+
+    if run then
+        task.spawn(function()
+            while run do
+                for _,v in ipairs(h:GetDescendants()) do
+                    if v.Name=="Pc" and v:IsA("Model") then
+                        local id=v:GetAttribute("Id")
+                        if id then pcall(store.InvokeServer,store,id) task.wait(.1) end
+                    end
+                end
+
+                pcall(complete.InvokeServer,complete)
+                bubble:FireServer("3")
+
+                for m=1,3 do for a=1,3 do
+                    local area=mines["Mine"..m].OreSpawns["Area"..a]
+                    for s=1,#area:GetChildren() do
+                        ore:InvokeServer(m,a,s)
+                    end
+                end end
+
+                for i=1,#fishing:GetChildren() do
+                    pcall(function() fish:InvokeServer(i,true) end)
+                end
+
+                task.wait(.3)
+            end
+        end)
+
+        task.spawn(function()
+            while run do
+                local root=(p.Character or p.CharacterAdded:Wait()):WaitForChild("HumanoidRootPart")
+                local cf=root.CFrame*CFrame.new(0,0,-6)
+
+                for _,mtr in ipairs(meteors:GetChildren()) do
+                    for _,v in ipairs(mtr:GetDescendants()) do
+                        if v:IsA("BasePart") then
+                            v.Anchored=true
+                            v.AssemblyLinearVelocity=Vector3.zero
+                            v.AssemblyAngularVelocity=Vector3.zero
+                        end
+                    end
+
+                    if mtr:IsA("Model") then
+                        mtr:PivotTo(cf)
+                    else
+                        local bp=mtr:FindFirstChildWhichIsA("BasePart",true)
+                        if bp then bp.CFrame=cf end
+                    end
+
+                    local prompt=mtr:FindFirstChildWhichIsA("ProximityPrompt",true)
+                    if prompt then
+                        prompt.HoldDuration=0
+                        fireproximityprompt(prompt)
+                    end
+                end
+
+                RunService.Heartbeat:Wait()
+            end
+        end)
+    end
+end)
