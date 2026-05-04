@@ -220,7 +220,7 @@ createTitleButton("🏆 TOP DONATUR 🏆", "🏆 TOP DONATUR 🏆")
 TabMisc:CreateButton({
     Name = "FLY GUI V3",
     Callback = function()
-        loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Gui-Fly-v3-37111"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/zackdoesstuff/ROBLOX-Fly-Script/refs/heads/main/Fly%20Script"))()
     end,
 })
 
